@@ -4,27 +4,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner get_path = new Scanner(System.in);
-        Path path = Paths.get(get_path.next());
+        Path path = Paths.get(args[0]);
 
         try(BufferedReader reader = Files.newBufferedReader(path,StandardCharsets.UTF_8)) {
             int n = get_array_size(path);
             int[] array = new int[n];
-            int i =0;
+            int i=0;
             String line;
             while ((line = reader.readLine()) != null) {
-                try {
                     array[i] = Integer.parseInt(line);
                     i++;
-                }
-                catch (NumberFormatException x){
-                    System.out.println("В файле должы быть только целые числа / Ошибка: " + x);
-                    break;
-                }
             }
             reader.close();
             int final_number = optional_num(array);

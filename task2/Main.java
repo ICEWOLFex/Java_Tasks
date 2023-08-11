@@ -11,9 +11,8 @@ public class Main {
     private static float y_center;
     private static double rad;
     public static void main(String[] args) {
-        Scanner get_path1 = new Scanner(System.in);
-        Path path1 = Paths.get(get_path1.next());
-        Path path2 = Paths.get(get_path1.next());
+        Path path1 = Paths.get(args[0]);
+        Path path2 = Paths.get(args[1]);
 
         get_first_file(path1);
         int n = get_array_size(path2);

@@ -1,10 +1,9 @@
-import com.sun.jdi.Value;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -15,19 +14,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
         File report = new File("report.json");
 
-        Scanner get_path = new Scanner(System.in);
-
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println("Введите путь до файла с результататми тестов");
-        Map<?, ?> map = mapper.readValue(Paths.get(get_path.next()).toFile(), Map.class);
+        Map<?, ?> map = mapper.readValue(Paths.get(args[0]).toFile(), Map.class);
 
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             value = entry.getKey() + "=" + entry.getValue();
         }
 
         Sort_Values();
-        System.out.println("Введите путь до файла с тестами");
-        Map<?, ?> map2 = mapper.readValue(Paths.get(get_path.next()).toFile(), Map.class);
+        Map<?, ?> map2 = mapper.readValue(Paths.get(args[1]).toFile(), Map.class);
 
         for (Map.Entry<?, ?> entry : map2.entrySet()) {
             result = entry.getKey() + "=" + entry.getValue();
@@ -102,18 +97,14 @@ public class Main {
     private static void JSON_Convert(){
         result = result.replace('=', ':');
         result = result.replace(":",":\"");
-        result = result.replace("}", "\"}");
-        result = result.replace("\"[", "[");
-        result = result.replace(",", "\",");
-        result = result.replace("}\"", "}");
-        result = result.replace("\"]", "]");
-        result = result.replace("values", "\"values\"");
+        result = result.replace(",","\",");
+        result = result.replace("\"[","[");
+        result = result.replace("}\"","}");
         result = result.replace("value:", "\"value\":");
+        result = result.replace("values:", "\"values\":");
         result = result.replace("id:", "\"id\":");
         result = result.replace("title:", "\"title\":");
         result = result.replace("tests", "{\"tests\"");
-        result = result.replace("\"}]", "}]");
-        result = result.replace("]\"}", "]}");
         result = result.replace("failed}", "failed\"}");
         result = result.replace("passed}", "passed\"}");
         result = new StringBuilder(result).insert(result.length(), "}").toString();
